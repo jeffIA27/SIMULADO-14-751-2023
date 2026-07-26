@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado CESPE/CEBRASPE — Lei 14.751/2023 (LOB-PMBM) — 50 Questões</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#0f172a;color:#e2e8f0;padding:20px;line-height:1.5}
+.header{text-align:center;padding:30px 20px;background:linear-gradient(135deg,#1e3a5f,#1a1a2e);border-radius:16px;margin-bottom:24px;border:1px solid #334155}
+.header h1{color:#38bdf8;font-size:1.5em;margin-bottom:8px}
+.header p{color:#94a3b8;font-size:0.85em;margin:2px 0}
+.progress-bar{width:100%;height:8px;background:#1e293b;border-radius:4px;margin:20px 0;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#818cf8);border-radius:4px;transition:width 0.3s}
+.stats{display:flex;justify-content:center;gap:16px;margin:16px 0;flex-wrap:wrap}
+.stat-box{background:#1e293b;padding:12px 20px;border-radius:10px;text-align:center;min-width:90px;border:1px solid #334155}
+.stat-box .num{font-size:1.6em;font-weight:bold}
+.stat-box .label{font-size:0.7em;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px}
+.stat-certas .num{color:#4ade80}
+.stat-erradas .num{color:#f87171}
+.stat-branco .num{color:#fbbf24}
+.stat-restante .num{color:#38bdf8}
+.stat-pontos .num{color:#818cf8}
+.question-card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:24px;margin-bottom:16px;transition:border-color 0.3s}
+.question-card.answered{border-color:#475569}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.q-num{background:#334155;color:#38bdf8;padding:4px 12px;border-radius:6px;font-weight:bold;font-size:0.8em}
+.q-status{font-size:0.75em;padding:4px 10px;border-radius:6px;font-weight:bold}
+.q-status.pending{background:#334155;color:#94a3b8}
+.q-status.correct{background:#166534;color:#4ade80}
+.q-status.wrong{background:#991b1b;color:#f87171}
+.q-command{color:#94a3b8;font-style:italic;margin-bottom:12px;font-size:0.85em}
+.q-text{font-size:1em;line-height:1.6;margin-bottom:20px;color:#f1f5f9}
+.q-buttons{display:flex;gap:12px}
+.btn-answer{flex:1;padding:14px;border:2px solid #475569;border-radius:10px;background:transparent;color:#e2e8f0;font-size:0.95em;font-weight:bold;cursor:pointer;transition:all 0.2s}
+.btn-answer:hover{border-color:#38bdf8;background:#1e3a5f}
+.btn-answer.selected-correct{background:#166534;border-color:#4ade80;color:#4ade80}
+.btn-answer.selected-wrong{background:#991b1b;border-color:#f87171;color:#f87171}
+.btn-answer.disabled{opacity:0.4;cursor:not-allowed}
+.btn-answer.disabled:hover{border-color:#475569;background:transparent}
+.explanation{margin-top:16px;padding:16px;border-radius:10px;display:none}
+.explanation.show{display:block;animation:fadeIn 0.3s}
+.explanation.correct{background:#052e16;border:1px solid #166534}
+.explanation.wrong{background:#450a0a;border:1px solid #991b1b}
+.exp-gabarito{font-weight:bold;margin-bottom:8px;font-size:1em}
+.exp-gabarito.c{color:#4ade80}
+.exp-gabarito.e{color:#f87171}
+.exp-text{color:#cbd5e1;line-height:1.5;font-size:0.85em;margin-bottom:8px}
+.exp-source{color:#64748b;font-size:0.75em;font-style:italic}
+.nav-buttons{display:flex;justify-content:center;gap:12px;margin:24px 0;flex-wrap:wrap}
+.btn-nav{padding:10px 20px;border:1px solid #475569;border-radius:8px;background:#1e293b;color:#e2e8f0;cursor:pointer;font-size:0.85em;transition:background 0.2s}
+.btn-nav:hover{background:#334155}
+.results{display:none;text-align:center;padding:40px;background:#1e293b;border-radius:16px;border:1px solid #334155}
+.results.show{display:block;animation:fadeIn 0.3s}
+.results h2{color:#38bdf8;font-size:1.5em;margin-bottom:20px}
+.results-score{font-size:2.5em;font-weight:bold;margin:20px 0}
+.results-msg{font-size:1em;color:#94a3b8;margin-bottom:24px}
+.results-table{width:100%;max-width:500px;margin:0 auto 24px;border-collapse:collapse}
+.results-table th,.results-table td{padding:10px;border:1px solid #334155;font-size:0.9em}
+.results-table th{background:#0f172a;color:#38bdf8}
+.results-table td{text-align:center}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){.stats{gap:8px}.stat-box{min-width:65px;padding:8px 10px}.stat-box .num{font-size:1.2em}.header h1{font-size:1.2em}.q-text{font-size:0.9em}}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🎯 SIMULADO CESPE/CEBRASPE — Lei nº 14.751/2023</h1>
+<p>Lei Orgânica Nacional das Polícias Militares e dos Corpos de Bombeiros Militares (LOB-PMBM)</p>
+<p>50 Itens | Modelo: Certo (C) / Errado (E) | Fator de correção: 1 erro anula 1 acerto</p>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<div class="stats">
+<div class="stat-box stat-certas"><div class="num" id="statCertas">0</div><div class="label">Certos</div></div>
+<div class="stat-box stat-erradas"><div class="num" id="statErradas">0</div><div class="label">Errados</div></div>
+<div class="stat-box stat-branco"><div class="num" id="statBranco">0</div><div class="label">Em Branco</div></div>
+<div class="stat-box stat-restante"><div class="num" id="statRestante">50</div><div class="label">Restantes</div></div>
+<div class="stat-box stat-pontos"><div class="num" id="statPontos">0</div><div class="label">Pontos</div></div>
+</div>
+
+<div id="quizContainer"></div>
+
+<div class="nav-buttons">
+<button class="btn-nav" onclick="scrollToTop()">⬆ Topo</button>
+<button class="btn-nav" onclick="showResults()">📊 Ver Resultado Final</button>
+<button class="btn-nav" onclick="resetQuiz()">🔄 Reiniciar</button>
+</div>
+
+<div class="results" id="results">
+<h2>📊 RESULTADO DO SIMULADO</h2>
+<div class="results-score" id="finalScore">0</div>
+<p class="results-msg" id="finalMsg"></p>
+<table class="results-table" id="resultsTable"></table>
+<button class="btn-nav" onclick="resetQuiz()">🔄 Refazer Simulado</button>
+</div>
+
+<script>
+const questions=[
+{n:1,cmd:"Julgue o item a seguir, a respeito das disposições gerais da Lei nº 14.751/2023.",text:"A Lei nº 14.751/2023 institui a Lei Orgânica Nacional das Polícias Militares e dos Corpos de Bombeiros Militares dos Estados, do Distrito Federal e dos Territórios, nos termos do inciso XXI do caput do art. 22 da Constituição Federal.",ans:"C",exp:"A Lei foi instituída exatamente com essa finalidade, conforme seu enunciado. A referência ao inciso XXI do art. 22 da CF está correta, pois compete à União legislar sobre normas gerais de organização das PMs e CBMs.",src:"Lei nº 14.751/2023, ementa."},
+{n:2,cmd:"Acerca das características das instituições militares, julgue o item subsequente.",text:"As polícias militares e os corpos de bombeiros militares são instituições militares permanentes, exclusivas e típicas de Estado, na condição de forças auxiliares e reserva do Exército.",ans:"C",exp:"O art. 2º estabelece que as PMs e CBMs são instituições militares permanentes, exclusivas e típicas de Estado, essenciais à Justiça Militar, na condição de forças auxiliares e reserva do Exército.",src:"Lei nº 14.751/2023, art. 2º, caput."},
+{n:3,cmd:"Com relação ao comando das instituições militares, julgue o seguinte item.",text:"As polícias militares e os corpos de bombeiros militares devem ser comandadas por oficial da reserva do último posto, integrante do Quadro de Oficiais de Estado-Maior (QOEM).",ans:"E",exp:"O art. 2º determina que as instituições são comandadas por oficial DA ATIVA do último posto, e não da reserva. A troca de 'ativa' por 'reserva' inverte o dispositivo legal.",src:"Lei nº 14.751/2023, art. 2º, caput."},
+{n:4,cmd:"Julgue o item a seguir, a respeito das atribuições das polícias militares.",text:"Às polícias militares, integrantes do Sistema Único de Segurança Pública (Susp), cabe a proteção dos direitos fundamentais no âmbito da preservação da ordem pública, da polícia ostensiva e da polícia judiciária militar.",ans:"C",exp:"O § 1º do art. 2º afirma exatamente isso: às PMs cabe a proteção dos direitos fundamentais no âmbito da preservação da ordem pública, da polícia ostensiva e da polícia judiciária militar.",src:"Lei nº 14.751/2023, art. 2º, § 1º."},
+{n:5,cmd:"Acerca das atribuições dos corpos de bombeiros militares, julgue o item subsequente.",text:"Aos corpos de bombeiros militares cabe exclusivamente a prevenção e o combate a incêndios, não tendo atribuições de polícia judiciária militar.",ans:"E",exp:"O § 2º do art. 2º atribui aos CBMs não apenas a prevenção e combate a incêndios, mas também a polícia judiciária militar. O termo 'exclusivamente' torna o item errado.",src:"Lei nº 14.751/2023, art. 2º, § 2º."},
+{n:6,cmd:"Com relação à integração sistêmica das instituições, julgue o seguinte item.",text:"As polícias militares e os corpos de bombeiros militares são integrantes do Sistema Único de Segurança Pública (Susp), da Defesa Nacional, do Sistema Nacional de Proteção e Defesa Civil (Sinpdec) e do Sistema Nacional do Meio Ambiente (Sisnama).",ans:"C",exp:"O art. 2º, § 3º, inciso V, lista exatamente esses quatro sistemas como integrantes.",src:"Lei nº 14.751/2023, art. 2º, § 3º, V."},
+{n:7,cmd:"Julgue o item a seguir, a respeito dos princípios básicos das instituições militares.",text:"São princípios básicos das polícias militares e dos corpos de bombeiros militares, entre outros: hierarquia, disciplina, legalidade, impessoalidade, moralidade e eficiência.",ans:"C",exp:"O art. 3º lista esses princípios nos incisos I (hierarquia), II (disciplina), IV (legalidade), V (impessoalidade), VII (moralidade) e VIII (eficiência).",src:"Lei nº 14.751/2023, art. 3º, I, II, IV, V, VII e VIII."},
+{n:8,cmd:"Acerca dos princípios básicos, julgue o item subsequente.",text:"A proteção, promoção e respeito aos direitos humanos, inclusive os decorrentes de compromissos internacionais assumidos pelo Brasil, é um dos princípios básicos observados pelas instituições militares.",ans:"C",exp:"O art. 3º, inciso III, prevê expressamente a proteção, promoção e respeito aos direitos humanos, inclusive os decorrentes de compromissos internacionais.",src:"Lei nº 14.751/2023, art. 3º, III."},
+{n:9,cmd:"Com relação aos princípios, julgue o seguinte item.",text:"A universalidade na prestação do serviço e a participação e interação comunitária não estão previstas como princípios básicos na Lei nº 14.751/2023.",ans:"E",exp:"O art. 3º prevê expressamente a universalidade na prestação do serviço (inciso XI) e a participação e interação comunitária (inciso XII) como princípios básicos.",src:"Lei nº 14.751/2023, art. 3º, XI e XII."},
+{n:10,cmd:"Julgue o item a seguir, a respeito das diretrizes das instituições militares.",text:"O uso racional da força e o uso progressivo dos meios são diretrizes a serem observadas pelas polícias militares e pelos corpos de bombeiros militares.",ans:"C",exp:"O art. 4º, inciso XIV, prevê expressamente 'uso racional da força e uso progressivo dos meios' como uma das diretrizes.",src:"Lei nº 14.751/2023, art. 4º, XIV."},
+{n:11,cmd:"Acerca das competências das polícias militares, julgue o item subsequente.",text:"Compete às polícias militares executar, ressalvada a competência da União, a polícia de preservação da ordem pública, a polícia ostensiva e, privativamente, a polícia judiciária militar.",ans:"C",exp:"O art. 5º, inciso II, prevê que compete às PMs executar, ressalvada a competência da União, a polícia de preservação da ordem pública, a polícia ostensiva e, privativamente, a polícia judiciária militar.",src:"Lei nº 14.751/2023, art. 5º, II."},
+{n:12,cmd:"Com relação à polícia ostensiva rodoviária, julgue o seguinte item.",text:"As polícias militares não podem exercer a polícia ostensiva rodoviária e de trânsito, pois essa competência é exclusiva dos órgãos municipais de trânsito.",ans:"E",exp:"O art. 5º, inciso V, prevê que compete às PMs exercer a polícia ostensiva rodoviária e de trânsito no âmbito dos Estados, como integrantes do Sistema Nacional de Trânsito.",src:"Lei nº 14.751/2023, art. 5º, V."},
+{n:13,cmd:"Julgue o item a seguir, a respeito da proteção ambiental pelas polícias militares.",text:"As polícias militares podem lavrar auto de infração ambiental e aplicar as sanções e penalidades administrativas, como integrante do Sisnama.",ans:"C",exp:"O art. 5º, inciso VII, alíneas 'b' e 'c', prevê que compete às PMs lavrar auto de infração ambiental e aplicar as sanções e penalidades administrativas.",src:"Lei nº 14.751/2023, art. 5º, VII, 'b' e 'c'."},
+{n:14,cmd:"Acerca da polícia judiciária militar, julgue o item subsequente.",text:"As funções constitucionais das polícias militares podem ser exercidas por civis contratados mediante convênio, desde que autorizado em lei.",ans:"E",exp:"O art. 5º, § 3º, estabelece que as funções constitucionais das PMs somente serão exercidas pelos militares que as integram, admitida apenas a celebração de convênio e acordos de cooperação técnica.",src:"Lei nº 14.751/2023, art. 5º, § 3º."},
+{n:15,cmd:"Com relação à custódia de militares presos, julgue o seguinte item.",text:"Compete às polícias militares custodiar, na forma da lei, por meio de órgão próprio ou, na ausência deste, em unidade militar, o militar condenado ou preso provisoriamente, à disposição da autoridade competente.",ans:"C",exp:"O art. 5º, inciso XVII, prevê expressamente essa competência de custodiar o militar condenado ou preso provisoriamente.",src:"Lei nº 14.751/2023, art. 5º, XVII."},
+{n:16,cmd:"Julgue o item a seguir, a respeito das competências dos corpos de bombeiros militares.",text:"Aos corpos de bombeiros militares compete executar, prioritariamente, as ações de busca, salvamento e resgate e, privativamente, as ações de prevenção, combate e perícia administrativa de incêndios e de polícia judiciária militar.",ans:"C",exp:"O art. 6º, inciso II, estabelece essa competência: executar prioritariamente as ações de busca, salvamento e resgate e, privativamente, as ações de prevenção, combate e perícia administrativa de incêndios e de polícia judiciária militar.",src:"Lei nº 14.751/2023, art. 6º, II."},
+{n:17,cmd:"Acerca da segurança contra incêndio, julgue o item subsequente.",text:"Os corpos de bombeiros militares exercem, privativamente, a segurança contra incêndio, pânico e emergência.",ans:"C",exp:"O art. 6º, inciso IX, prevê que compete aos CBMs privativamente exercer a segurança contra incêndio, pânico e emergência.",src:"Lei nº 14.751/2023, art. 6º, IX."},
+{n:18,cmd:"Com relação à perícia administrativa dos bombeiros, julgue o seguinte item.",text:"A perícia administrativa dos corpos de bombeiros militares será feita antes da liberação do local pelo perito criminal, sendo vedada a realização sem a presença da perícia criminal.",ans:"E",exp:"O art. 6º, § 5º, estabelece que a perícia administrativa será feita DEPOIS de liberado o local pelo perito criminal, salvo manifesta impossibilidade de presença. A questão inverteu a ordem.",src:"Lei nº 14.751/2023, art. 6º, § 5º."},
+{n:19,cmd:"Julgue o item a seguir, a respeito da subordinação das instituições militares.",text:"As polícias militares e os corpos de bombeiros militares subordinam-se aos governadores dos Estados, do Distrito Federal e dos Territórios.",ans:"C",exp:"O art. 7º, caput, prevê: as PMs e CBMs subordinam-se aos governadores dos Estados, do Distrito Federal e dos Territórios.",src:"Lei nº 14.751/2023, art. 7º, caput."},
+{n:20,cmd:"Acerca da cooperação entre instituições, julgue o item subsequente.",text:"É vedada a cooperação das polícias militares para formação e treinamento de natureza militar para as instituições civis.",ans:"C",exp:"O art. 8º, parágrafo único, estabelece expressamente: é vedada a cooperação para formação e treinamento de natureza militar para as instituições civis.",src:"Lei nº 14.751/2023, art. 8º, parágrafo único."},
+{n:21,cmd:"Com relação à organização das instituições, julgue o seguinte item.",text:"A organização das polícias militares e dos corpos de bombeiros militares será fixada em lei de iniciativa privativa do governador, observados as normas gerais previstas na Lei nº 14.751/2023 e os fundamentos de organização das Forças Armadas.",ans:"C",exp:"O art. 9º, caput, prevê que a organização será fixada em lei de iniciativa privativa do governador, observadas as normas gerais e os fundamentos das Forças Armadas.",src:"Lei nº 14.751/2023, art. 9º, caput."},
+{n:22,cmd:"Julgue o item a seguir, a respeito da estrutura básica das instituições.",text:"A estrutura básica das polícias militares e dos corpos de bombeiros militares deve observar, preferencialmente, órgãos de direção, assessoramento, apoio, execução e correição.",ans:"C",exp:"O art. 10, caput, lista exatamente esses cinco tipos de órgãos: direção, assessoramento, apoio, execução e correição.",src:"Lei nº 14.751/2023, art. 10, caput, I a V."},
+{n:23,cmd:"Com relação aos efetivos das instituições, julgue o seguinte item.",text:"Os efetivos das polícias militares e dos corpos de bombeiros militares são fixados exclusivamente com base na extensão da área territorial e na população da unidade federada.",ans:"E",exp:"O art. 11 estabelece que os efetivos são fixados considerando também índices de criminalidade, riscos potenciais de desastres, índice de desenvolvimento humano e condições socioeconômicas. O termo 'exclusivamente' ignora os demais critérios.",src:"Lei nº 14.751/2023, art. 11."},
+{n:24,cmd:"Julgue o item a seguir, a respeito da hierarquia militar.",text:"A hierarquia militar nas polícias militares e nos corpos de bombeiros militares observa, entre outras, a estrutura de oficiais (superiores, intermediários e subalternos), praças especiais e praças.",ans:"C",exp:"O art. 12 estabelece a estrutura básica hierárquica em: I (oficiais); II (praças especiais); III (praças).",src:"Lei nº 14.751/2023, art. 12."},
+{n:25,cmd:"Acerca dos postos de oficiais, julgue o item subsequente.",text:"Na estrutura hierárquica militar, o posto de capitão é classificado como oficial superior.",ans:"E",exp:"O art. 12, I, alínea 'b', classifica o capitão como oficial INTERMEDIÁRIO, e não como oficial superior. Os oficiais superiores são coronel, tenente-coronel e major.",src:"Lei nº 14.751/2023, art. 12, I, 'a' e 'b'."},
+{n:26,cmd:"Com relação às praças, julgue o seguinte item.",text:"Na estrutura hierárquica, as praças incluem, entre outras, as graduações de subtenente, primeiro-sargento, segundo-sargento, terceiro-sargento, cabo e soldado.",ans:"C",exp:"O art. 12, III, lista: subtenente, primeiro-sargento, segundo-sargento, terceiro-sargento, cabo e soldado, entre outras graduações.",src:"Lei nº 14.751/2023, art. 12, III."},
+{n:27,cmd:"Julgue o item a seguir, a respeito das condições para ingresso nas instituições militares.",text:"São condições básicas para ingresso nas polícias militares e nos corpos de bombeiros militares: ser brasileiro, estar quite com as obrigações militares e eleitorais, e ser aprovado em concurso público de provas ou de provas e títulos.",ans:"C",exp:"O art. 13 prevê essas condições nos incisos I (ser brasileiro), II (estar quite com as obrigações) e V (ser aprovado em concurso público).",src:"Lei nº 14.751/2023, art. 13, I, II e V."},
+{n:28,cmd:"Com relação às condições de ingresso, julgue o seguinte item.",text:"É condição básica para ingresso nas instituições militares não possuir qualquer tipo de tatuagem visível, independentemente do conteúdo.",ans:"E",exp:"O art. 13, inciso X, veda apenas tatuagens de suásticas, obscenidades, ideologias terroristas ou que façam apologia à violência, drogas ilícitas ou discriminação. Não é vedada qualquer tatuagem.",src:"Lei nº 14.751/2023, art. 13, X."},
+{n:29,cmd:"Julgue o item a seguir, a respeito do ingresso nas instituições militares.",text:"É condição básica para ingresso ser aprovado em exame de saúde e exame toxicológico com larga janela de detecção.",ans:"C",exp:"O art. 13, inciso VIII, prevê: ser aprovado em exame de saúde e exame toxicológico com larga janela de detecção.",src:"Lei nº 14.751/2023, art. 13, VIII."},
+{n:30,cmd:"Acerca da escolaridade para ingresso, julgue o item subsequente.",text:"Para ingresso nas instituições militares, é exigido comprovar, na data de admissão, o grau de escolaridade superior.",ans:"C",exp:"O art. 13, inciso IX, prevê: comprovar, na data de admissão, o grau de escolaridade superior.",src:"Lei nº 14.751/2023, art. 13, IX."},
+{n:31,cmd:"Com relação à progressão na hierarquia militar, julgue o seguinte item.",text:"A progressão do militar na hierarquia será fundamentada no valor moral e profissional, de forma seletiva, gradual e sucessiva, mediante promoções pelos critérios de antiguidade e merecimento.",ans:"C",exp:"O art. 14, caput, prevê que a progressão será fundamentada no valor moral e profissional, de forma seletiva, gradual e sucessiva, mediante promoções pelos critérios de antiguidade e merecimento.",src:"Lei nº 14.751/2023, art. 14, caput."},
+{n:32,cmd:"Julgue o item a seguir, a respeito dos quadros das instituições militares.",text:"O Quadro de Oficiais de Estado-Maior (QOEM) é destinado ao exercício de funções de comando, chefia, direção e administração superior, sendo exigido bacharelado em direito para seus integrantes.",ans:"C",exp:"O art. 15, inciso I, prevê que o QOEM é destinado ao exercício de funções de comando, chefia, direção e administração superior, exigido bacharelado em direito.",src:"Lei nº 14.751/2023, art. 15, I."},
+{n:33,cmd:"Com relação ao Quadro de Oficiais Especialistas (QOE), julgue o seguinte item.",text:"O QOE é integrado por oficiais oriundos do quadro de praças e admite promoção até o posto de coronel.",ans:"E",exp:"O art. 15, inciso II, prevê que o QOE admite promoção até o posto de TENENTE-CORONEL, e não coronel.",src:"Lei nº 14.751/2023, art. 15, II."},
+{n:34,cmd:"Julgue o item a seguir, a respeito do Quadro de Oficiais de Saúde (QOS).",text:"O QOS é destinado ao desempenho de atividades de saúde, com emprego obrigatório e exclusivo na área de saúde das corporações.",ans:"C",exp:"O art. 15, inciso III, prevê que o QOS é destinado ao desempenho de atividades de saúde com emprego obrigatório e exclusivo na área de saúde das corporações.",src:"Lei nº 14.751/2023, art. 15, III."},
+{n:35,cmd:"Com relação às garantias dos militares, julgue o seguinte item.",text:"É garantia dos militares o uso privativo dos uniformes, das insígnias e dos distintivos das respectivas instituições, vedada a utilização por qualquer entidade pública ou privada.",ans:"C",exp:"O art. 18, inciso II, prevê: uso privativo dos uniformes, das insígnias e dos distintivos, vedada a utilização por qualquer entidade pública ou privada.",src:"Lei nº 14.751/2023, art. 18, II."},
+{n:36,cmd:"Julgue o item a seguir, a respeito da identidade militar.",text:"A expedição de documento de identidade militar com livre porte de arma tem fé pública em todo o território nacional, na ativa, na reserva remunerada e na reforma.",ans:"C",exp:"O art. 18, inciso IV, prevê: expedição de documento de identidade militar com livre porte de arma, com fé pública em todo o território nacional, na ativa, na reserva remunerada e na reforma.",src:"Lei nº 14.751/2023, art. 18, IV."},
+{n:37,cmd:"Com relação à perda do posto e da patente, julgue o seguinte item.",text:"A perda do posto e da patente, em qualquer hipótese, ocorrerá automaticamente pela condenação criminal, independentemente de decisão judicial específica.",ans:"E",exp:"O art. 18, inciso XVI, prevê que a perda do posto e da patente somente se for julgado indigno do oficialato ou com ele incompatível, por decisão do Tribunal de Justiça Militar ou do Tribunal de Justiça. Não é automática.",src:"Lei nº 14.751/2023, art. 18, XVI."},
+{n:38,cmd:"Julgue o item a seguir, a respeito da estabilidade dos militares.",text:"Os militares de carreira têm estabilidade após 3 (três) anos de efetivo serviço nas corporações militares.",ans:"C",exp:"O art. 18, inciso XXVI, prevê: estabilidade dos militares de carreira após 3 (três) anos de efetivo serviço nas corporações militares.",src:"Lei nº 14.751/2023, art. 18, XXVI."},
+{n:39,cmd:"Acerca das vedações aos militares, julgue o item subsequente.",text:"É vedado ao militar em atividade participar de sociedade comercial, salvo como cotista, acionista e comanditário.",ans:"C",exp:"O art. 19, inciso I, prevê: participar de sociedade comercial, salvo como cotista, acionista e comanditário.",src:"Lei nº 14.751/2023, art. 19, I."},
+{n:40,cmd:"Julgue o item a seguir, a respeito das vedações.",text:"É vedado ao militar divulgar imagens de pessoas sob sua custódia sem prévia autorização judicial.",ans:"C",exp:"O art. 19, inciso VI, prevê expressamente: divulgar imagens de pessoas sob sua custódia sem prévia autorização judicial.",src:"Lei nº 14.751/2023, art. 19, VI."},
+{n:41,cmd:"Acerca da elegibilidade do militar, julgue o item subsequente.",text:"O militar com menos de 10 (dez) anos de serviço que for candidato a mandato eletivo será afastado do serviço ativo no dia posterior ao pedido de registro de sua candidatura.",ans:"C",exp:"O art. 22, inciso I, prevê: o militar com menos de 10 anos de serviço será afastado do serviço ativo no dia posterior ao pedido de registro de sua candidatura.",src:"Lei nº 14.751/2023, art. 22, I."},
+{n:42,cmd:"Com relação ao militar com mais de 10 anos de serviço, julgue o seguinte item.",text:"O militar com mais de 10 (dez) anos de serviço que for candidato a mandato eletivo será agregado com remuneração e, se eleito, no ato da diplomação passará para a reserva remunerada.",ans:"C",exp:"O art. 22, inciso II, prevê: será agregado com remuneração e, se eleito, no ato da diplomação passará para a reserva remunerada com remuneração proporcional ao tempo de serviço.",src:"Lei nº 14.751/2023, art. 22, II."},
+{n:43,cmd:"Julgue o item a seguir, a respeito da nomeação dos comandantes-gerais.",text:"Os comandantes-gerais das polícias militares e dos corpos de bombeiros militares serão nomeados por ato do governador entre os oficiais da ativa do último posto do QOEM.",ans:"C",exp:"O art. 29, caput, prevê: os comandantes-gerais serão nomeados por ato do governador entre os oficiais da ativa do último posto do QOEM.",src:"Lei nº 14.751/2023, art. 29, caput."},
+{n:44,cmd:"Com relação ao plano de comando, julgue o seguinte item.",text:"O comandante-geral nomeado deverá apresentar, em até 60 (sessenta) dias da posse, plano de comando com metas, indicadores, prestação de contas e participação da sociedade.",ans:"C",exp:"O art. 29, § 2º, prevê: o comandante-geral deverá apresentar, em até 60 dias da posse, plano de comando com metas, indicadores, prestação de contas e participação da sociedade.",src:"Lei nº 14.751/2023, art. 29, § 2º."},
+{n:45,cmd:"Julgue o item a seguir, a respeito da atuação ostensiva.",text:"No cumprimento de sua missão constitucional, as polícias militares e os corpos de bombeiros militares atuarão de forma ostensiva, visivelmente identificados por meio de uniforme, armamento, viatura e equipamentos próprios.",ans:"C",exp:"O art. 33, caput, prevê: atuarão de forma ostensiva, visivelmente identificados por meio de uniforme, armamento, viatura e equipamentos próprios.",src:"Lei nº 14.751/2023, art. 33, caput."},
+{n:46,cmd:"Acerca das denominações consagradas, julgue o item subsequente.",text:"É assegurada a exclusividade da utilização das denominações 'brigada militar' e 'força pública' para a polícia militar, e 'bombeiros militares' e 'corpo de bombeiros' para o corpo de bombeiros militar.",ans:"C",exp:"O art. 35, caput, prevê: é assegurada a exclusividade da utilização das denominações 'brigada militar' e 'força pública' para a PM e 'bombeiros militares' e 'corpo de bombeiros' para o CBM.",src:"Lei nº 14.751/2023, art. 35, caput."},
+{n:47,cmd:"Com relação às datas comemorativas, julgue o seguinte item.",text:"São instituídas as datas comemorativas nacionais de 21 de abril para as polícias militares e de 2 de julho para os corpos de bombeiros militares.",ans:"C",exp:"O art. 35, § 1º, prevê: são instituídas as datas comemorativas nacionais de 21 de abril para as PMs e de 2 de julho para os CBMs.",src:"Lei nº 14.751/2023, art. 35, § 1º."},
+{n:48,cmd:"Julgue o item a seguir, a respeito da transição de escolaridade.",text:"A adoção do requisito de escolaridade superior para ingresso na instituição militar será processada no prazo de até 6 (seis) anos a contar da publicação da Lei nº 14.751/2023.",ans:"C",exp:"O art. 39, caput, prevê: a adoção do requisito de escolaridade para ingresso será processada no prazo de até 6 anos a contar da publicação desta Lei.",src:"Lei nº 14.751/2023, art. 39, caput."},
+{n:49,cmd:"Acerca da vigência da lei, julgue o item subsequente.",text:"A Lei nº 14.751/2023 entrou em vigor na data de sua publicação.",ans:"C",exp:"O art. 44 prevê: esta Lei entra em vigor na data de sua publicação.",src:"Lei nº 14.751/2023, art. 44."},
+{n:50,cmd:"Com relação à reversão ao serviço ativo, julgue o seguinte item.",text:"A reversão ao serviço ativo do militar da reserva remunerada é compulsória, nas hipóteses previstas na lei do ente federado.",ans:"E",exp:"O art. 18, inciso XXXVI, prevê a VOLUNTARIEDADE nas hipóteses de REVERSÃO. Já a CONVOCAÇÃO (inciso XXXVII) é compulsória. A questão confundiu reversão (voluntária) com convocação (compulsória).",src:"Lei nº 14.751/2023, art. 18, XXXVI e XXXVII."}
+];
+
+const answers={};
+const container=document.getElementById('quizContainer');
+
+function renderQuiz(){
+    container.innerHTML='';
+    questions.forEach((q)=>{
+        const card=document.createElement('div');
+        card.className='question-card';
+        card.id='q-'+q.n;
+        card.innerHTML='<div class="q-header"><span class="q-num">Item '+q.n+'</span><span class="q-status pending" id="status-'+q.n+'">Pendente</span></div><div class="q-command">'+q.cmd+'</div><div class="q-text">'+q.text+'</div><div class="q-buttons"><button class="btn-answer" id="btnC-'+q.n+'" onclick="answer('+q.n+',\'C\')">✓ Certo</button><button class="btn-answer" id="btnE-'+q.n+'" onclick="answer('+q.n+',\'E\')">✗ Errado</button></div><div class="explanation" id="exp-'+q.n+'"><div class="exp-gabarito '+(q.ans==='C'?'c':'e')+'">⚡ Gabarito: '+(q.ans==='C'?'Certo (C)':'Errado (E)')+'</div><div class="exp-text">📖 '+q.exp+'</div><div class="exp-source">🔍 Fonte: '+q.src+'</div></div>';
+        container.appendChild(card);
+    });
+}
+
+function answer(qNum,choice){
+    if(answers[qNum])return;
+    const q=questions.find(x=>x.n===qNum);
+    answers[qNum]=choice;
+    const isCorrect=choice===q.ans;
+    const btnC=document.getElementById('btnC-'+qNum);
+    const btnE=document.getElementById('btnE-'+qNum);
+    const exp=document.getElementById('exp-'+qNum);
+    const status=document.getElementById('status-'+qNum);
+    const card=document.getElementById('q-'+qNum);
+    if(choice==='C'){btnC.className='btn-answer '+(isCorrect?'selected-correct':'selected-wrong');}
+    else{btnE.className='btn-answer '+(isCorrect?'selected-correct':'selected-wrong');}
+    btnC.classList.add('disabled');btnE.classList.add('disabled');
+    btnC.onclick=null;btnE.onclick=null;
+    exp.className='explanation show '+(isCorrect?'correct':'wrong');
+    status.className='q-status '+(isCorrect?'correct':'wrong');
+    status.textContent=isCorrect?'✓ Correto':'✗ Errado';
+    card.classList.add('answered');
+    updateStats();
+}
+
+function updateStats(){
+    let certas=0,erradas=0,branco=0;
+    questions.forEach(q=>{
+        if(!answers[q.n])branco++;
+        else if(answers[q.n]===q.ans)certas++;
+        else erradas++;
+    });
+    const restante=50-certas-erradas;
+    const pontos=certas-erradas;
+    document.getElementById('statCertas').textContent=certas;
+    document.getElementById('statErradas').textContent=erradas;
+    document.getElementById('statBranco').textContent=branco;
+    document.getElementById('statRestante').textContent=restante;
+    document.getElementById('statPontos').textContent=pontos;
+    document.getElementById('progressFill').style.width=((certas+erradas)/50*100)+'%';
+}
+
+function showResults(){
+    let certas=0,erradas=0,branco=0;
+    questions.forEach(q=>{
+        if(!answers[q.n])branco++;
+        else if(answers[q.n]===q.ans)certas++;
+        else erradas++;
+    });
+    const pontos=certas-erradas;
+    const percent=Math.round((certas/50)*100);
+    document.getElementById('finalScore').textContent=pontos+' pontos';
+    let msg='';
+    if(pontos>=35)msg='🏆 Excelente! Você está muito bem preparado!';
+    else if(pontos>=25)msg='👍 Bom desempenho! Continue estudando.';
+    else if(pontos>=15)msg='⚠️ Desempenho médio. Revise os artigos da lei.';
+    else msg='📚 Precisa estudar mais. Releia a Lei nº 14.751/2023 com atenção.';
+    document.getElementById('finalMsg').textContent=msg;
+    const table=document.getElementById('resultsTable');
+    table.innerHTML='<tr><th>Métrica</th><th>Quantidade</th></tr><tr><td>✓ Certos</td><td>'+certas+'</td></tr><tr><td>✗ Errados</td><td>'+erradas+'</td></tr><tr><td>○ Em Branco</td><td>'+branco+'</td></tr><tr><td>📊 Pontuação (C-E)</td><td>'+pontos+'</td></tr><tr><td>📈 Aproveitamento</td><td>'+percent+'%</td></tr>';
+    document.getElementById('results').classList.add('show');
+    document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz(){
+    Object.keys(answers).forEach(k=>delete answers[k]);
+    renderQuiz();
+    updateStats();
+    document.getElementById('results').classList.remove('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+
+renderQuiz();
+updateStats();
+</script>
+</body>
+</html>
